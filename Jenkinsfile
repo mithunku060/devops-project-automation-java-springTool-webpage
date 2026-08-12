@@ -37,10 +37,10 @@ pipeline{
         stage("Push to Docker Hub"){
             steps {
                 echo "Pushing the image to docker hub"
-                withCredentials([usernamePassword(credentialsId: 'dockerHub', passwordVariable: 'dockerHub-pass', usernameVariable: 'dockerHub-user')]){
-                sh "docker tag ci-cd-pipeline ${env.dockerHub-user}/ci-cd-pipeline:latest"
-                sh "docker login -u ${env.dockerHub-user} -p ${env.dockerHub-pass}"
-                sh "docker push ${env.dockerHub-user}/ci-cd-pipeline:latest"
+                withCredentials([usernamePassword(credentialsId: 'dockerHub', passwordVariable: 'dockerHub_pass', usernameVariable: 'dockerHub_user')]){
+                sh "docker tag ci-cd-pipeline ${env.dockerHub_user}/ci-cd-pipeline:latest"
+                sh "docker login -u ${env.dockerHub_user} -p ${env.dockerHub_pass}"
+                sh "docker push ${env.dockerHub_user}/ci-cd-pipeline:latest"
                 }
             }
         }
