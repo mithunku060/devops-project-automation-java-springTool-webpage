@@ -16,5 +16,6 @@ spec:
       containers: 
         - name: mycontainer
           image: mkumar060/ci-cd-pipeline:latest
+          imagePullPolicy: Always
           ports:
           - containerPort: 8080
