@@ -47,7 +47,7 @@ pipeline{
         stage("Deploy to kubernetes") {
             steps {
                 script {
-                    dir("notesapp") {
+                    dir("/var/lib/jenkins/workspace/project2") {
                         withKubeConfig(caCertificate: '', clusterName: '', contextName: '', credentialsId: 'kuberneteslogin', namespace: '', restrictKubeConfigAccess: false, serverUrl: '') {
                         sh "kubectl delete --all pods"
                         sh "kubectl apply -f deployment.yaml"
@@ -55,6 +55,7 @@ pipeline{
                         }
                     }
                 }
-                
             }
         }
+    }
+}
