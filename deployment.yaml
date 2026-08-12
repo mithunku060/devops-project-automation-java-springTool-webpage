@@ -15,6 +15,6 @@ spec:
     spec:
       containers: 
         - name: mycontainer
-          image: mithunku060/ci-cd-pipeline:latest
+          image: mkumar060/ci-cd-pipeline:latest
           ports:
           - containerPort: 8080
