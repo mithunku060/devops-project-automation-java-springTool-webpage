@@ -124,6 +124,14 @@ Followed [Aareez01/kubernetes-v1.30.2-cluster-using-kubeadm](https://github.com/
 ### 6. Configure Jenkins
 - Access Jenkins at `http://<master-ip>:8080` and complete initial setup.
 - Add **GitHub** and **Docker Hub** credentials under **Manage Jenkins → Credentials → Global domain**.
+- Add **Kubernetes** credentials so Jenkins can run `kubectl` commands against the cluster:
+  - On the master node, run:
+    ```bash
+    ll ~/.kube
+    ```
+  - Copy the contents of the `config` file found there.
+  - Save the copied content into a local `.txt` file.
+  - In Jenkins, go to **Manage Jenkins → Credentials → Global domain** and upload this file as a **Secret file** credential (used by the pipeline to authenticate `kubectl` with the cluster).
 - Install the **Pipeline: Stage View** plugin.
 - Add the pipeline job pointing to this repository, using the `Jenkinsfile` in the repo root.
 
