@@ -1,0 +1,75 @@
+steps:
+* setup 2 AWS EC2 (Project2-master and Project2-worker)
+	- c7i-flex.large
+	- ubuntu 24.04
+	- ports ssh(22), http(80), custom tcp(8080), custom tcp(6443)for k8(allow all traffic suggested for testing), 30000 to 32767 for nodeport services
+* connected to AWS EC2 (Project2-master) and logged in as root
+sudo apt update
+sudo apt upgrade
+
+** Install Jenkins
+sudo apt update
+sudo apt install fontconfig openjdk-21-jre
+java -version
+sudo wget -O /etc/apt/keyrings/jenkins-keyring.asc \
+  https://pkg.jenkins.io/debian-stable/jenkins.io-2026.key
+echo "deb [signed-by=/etc/apt/keyrings/jenkins-keyring.asc]" \
+  https://pkg.jenkins.io/debian-stable binary/ | sudo tee \
+  /etc/apt/sources.list.d/jenkins.list > /dev/null
+sudo apt update
+sudo apt install jenkins
+
+**Install maven
+Prerequisite: Java(already installed while installing Jenkins)
+apt install default-jdk -y
+apt install maven -y
+
+**Install docker
+# Add Docker's official GPG key:
+sudo apt update
+sudo apt install ca-certificates curl
+sudo install -m 0755 -d /etc/apt/keyrings
+sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
+sudo chmod a+r /etc/apt/keyrings/docker.asc
+
+# Add the repository to Apt sources:
+sudo tee /etc/apt/sources.list.d/docker.sources <<EOF
+Types: deb
+URIs: https://download.docker.com/linux/ubuntu
+Suites: $(. /etc/os-release && echo "${UBUNTU_CODENAME:-$VERSION_CODENAME}")
+Components: stable
+Architectures: $(dpkg --print-architecture)
+Signed-By: /etc/apt/keyrings/docker.asc
+EOF
+
+sudo apt update
+
+sudo apt install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+
+sudo docker run hello-world
+systemctl status docker
+
+**Install kubernetis https://github.com/Aareez01/kubernetes-v1.30.2-cluster-using-kubeadm
+run on both master and worker till step 9, run the first command in step10 on both but the second command in master only.
+*copy the kubeadm join code on worker.
+*run remaining commands in master only.
+*kubectl get nodes - should show both nodes in master
+
+
+* project is in https://github.com/mithunku060/devops-project-automation-java-springTool-webpage
+
+* setup Jenkins at master-ip:8080
+* Added GitHub and dockerhub credentials in globaldomain
+* Jenkins pipeline is written and saved as Jenkinsfile
+*installed plugins pipeline stageview
+
+* wrote the dockerfile and saved it as dockerfile
+* to set the permission added Jenkins to docker group
+usermod -aG docker Jenkins
+reboot
+
+* Wrote deployment.yaml and service.yaml
+
+*add the pipeline in Jenkins and build.
+
+*It worked
